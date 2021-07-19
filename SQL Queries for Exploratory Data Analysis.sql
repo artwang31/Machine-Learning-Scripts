@@ -1,4 +1,7 @@
 -- 1st pull
+
+SQL 
+
 SELECT 
 subscriber_id, spot_id, brand_id, creative_id,
 date_format(date_trunc('month',date_parse(date,'%Y%m%d')), '%Y-%m-%d') date,
