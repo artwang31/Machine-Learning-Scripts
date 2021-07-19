@@ -283,29 +283,6 @@ FROM "dev_ncc"."ispot_airings_daily" AS original_table
 WHERE date BETWEEN '20210101' AND '20210330'
 GROUP BY 1,2,3,4 
 
--- aggregating cox and charter  From 1-01-2021 to 3-30-2021
-SELECT brand_id, date, sum(impressions) impressions, sum(unique_households_reached) unique_households_reached
-FROM 
-(SELECT cox_data.brand_id, cox_data.date, count(*) impressions, 
-    count(distinct cox_data.subscriber_id) unique_households_reached
-FROM (
-  SELECT brand_id, date_format(date_trunc('month',date_parse(date,'%Y%m%d')), '%Y-%m-%d') date, 'monthly' version, 
-  subscriber_id
-    FROM dev_cox_data.log_viewing_ispot_data
-WHERE valid_ad_record = 'true' AND date BETWEEN '20210101' AND '20210330') AS cox_data
-GROUP BY cox_data.brand_id, cox_data.date
-UNION
-SELECT charter_data.brand_id, charter_data.date, count(*) impressions, 
-    count(distinct charter_data.subscriber_id) unique_households_reached
-FROM (
-  SELECT brand_id, date_format(date_trunc('month',date_parse(date,'%Y%m%d')), '%Y-%m-%d') date, 'monthly' version,
-  subscriber_id
-    FROM dev_charter_data.log_viewing_ispot_data
-WHERE valid_ad_record = 'true' AND date BETWEEN '20210101' AND '20210330') AS charter_data
-GROUP BY charter_data.brand_id, charter_data.date
-ORDER BY brand_id) s
-GROUP BY 1,2
-
 
 
 
