@@ -6,4 +6,4 @@ This is a repository for all the machine learning scripts I have written for var
 
 Models:
 - multi-variate regression
-- poisson
+- poisson 
